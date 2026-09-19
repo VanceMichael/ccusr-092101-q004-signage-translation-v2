@@ -1,0 +1,19 @@
+{
+  "schema_version": "1",
+  "domain": "城市外语标识纠错闭环",
+  "required_fields": [
+    "sign_ref",
+    "location_code",
+    "language_code",
+    "translation_revision",
+    "standard_ref",
+    "review_state"
+  ],
+  "time_format": "ISO 8601 with offset",
+  "sample": {
+    "sign_ref": "SIGN-DEMO",
+    "location_code": "FZ-001",
+    "language_code": "en",
+    "translation_revision": 3
+  }
+}
