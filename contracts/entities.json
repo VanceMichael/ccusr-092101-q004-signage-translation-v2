@@ -1,19 +1,50 @@
 {
-  "schema_version": "1",
-  "domain": "城市外语标识纠错闭环",
-  "required_fields": [
-    "sign_ref",
-    "location_code",
-    "language_code",
-    "translation_revision",
-    "standard_ref",
-    "review_state"
-  ],
+  "schema_version": "2",
+  "domain": "规范发布与采用追踪",
   "time_format": "ISO 8601 with offset",
-  "sample": {
-    "sign_ref": "SIGN-DEMO",
-    "location_code": "FZ-001",
-    "language_code": "en",
-    "translation_revision": 3
-  }
+  "identifiers": "外部主体一律使用不含真实身份信息的引用编号（unit_id/sign_ref/package_id/req_id）",
+  "attachments": "附件只记录受控引用 doc_ref 或 sha256 摘要",
+  "entities": {
+    "unit": {
+      "required_fields": ["unit_id", "name", "managed_categories"],
+      "auth": "注册时签发与 unit_id 绑定的 token，经 X-Unit-Id / X-Unit-Token 上报"
+    },
+    "subscription": {
+      "required_fields": ["unit_id", "category"],
+      "rule": "只能订阅本单位 managed_categories 内的场所类别"
+    },
+    "package": {
+      "required_fields": ["package_id", "category", "language_code", "sequence_no", "effective_at", "issued_by", "entries", "basis_docs"],
+      "optional_fields": ["exceptions", "prev_package_id"],
+      "signature": "canonical_bytes(JSON 确定性序列化) 的 HMAC-SHA256，可离线复核",
+      "lifecycle": "pending | active | superseded | withdrawn，状态由 package_events 事件链推导，历史行不可变",
+      "entry": {"term_key": {"term": "中文词条", "translation": "规范译文", "note": "可选"}},
+      "exception": {"term_key": "", "scope": "适用范围", "reason": "例外理由"},
+      "basis_doc": {"doc_ref": "依据文件编号", "title": "名称", "sha256": "摘要"}
+    },
+    "sign": {
+      "required_fields": ["sign_ref", "location_code", "category"],
+      "version_required_fields": ["language_code", "term_key", "package_id", "observed_text", "batch_id"]
+    },
+    "candidate": {
+      "rule": "差异分析自动产生的更新候选，status=proposed，必须专业人员 confirm 才生成 update_requirement"
+    },
+    "update_requirement": {
+      "required_fields": ["req_id", "sign_ref", "language_code", "term_key", "unit_id", "target_package_id"],
+      "optional_fields": ["promised_by", "completed_at"],
+      "rule": "completed_at 由现场版本推进到目标包时自动回填，反映真实完成"
+    },
+    "exemption": {
+      "actions": ["request", "approve", "expire", "revoke"],
+      "rule": "全部为 append-only 决定事件，批准、到期、撤销互不覆盖，当前状态由事件链推导"
+    }
+  },
+  "invariants": [
+    "发布包签名只覆盖不可变内容，废止/取代以新事件表达",
+    "新建标识只能引用当前推荐(active)包；旧包仅供历史查询，撤回包永不可引用",
+    "同一 标识+语种+词条 的引用包序号只能前进，迟到/重复同步不得倒退",
+    "离线回执按 (unit_id, batch_id) 幂等，重放返回首次回执且不产生新版本",
+    "豁免决定链不可覆盖；逾期由 sweep 追加 expire 事件",
+    "分批换版期间公开查询同时展示现场实际与当前推荐及其差异"
+  ]
 }

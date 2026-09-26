@@ -1,6 +1,56 @@
 {
-  "sign_ref": "SIGN-DEMO",
-  "location_code": "FZ-001",
-  "language_code": "en",
-  "translation_revision": 3
+  "unit_registration": {
+    "unit_id": "U-FOC-AIRPORT",
+    "name": "福州机场标识管理处",
+    "managed_categories": ["airport"],
+    "managed_locations": []
+  },
+  "package_issue": {
+    "category": "airport",
+    "language_code": "en",
+    "effective_at": "2026-10-01T00:00:00+08:00",
+    "issued_by": "福州市外事办公室",
+    "basis_docs": [
+      {"doc_ref": "FZ-FL-2026-01", "title": "福州市公共场所标识英文译写规范", "sha256": "9f2c...e1"}
+    ],
+    "entries": {
+      "exit": {"term": "安全出口", "translation": "Emergency Exit", "note": ""},
+      "info": {"term": "问讯处", "translation": "Information", "note": ""}
+    },
+    "exceptions": [
+      {"term_key": "exit", "scope": "T1 航站楼历史指廊", "reason": "历史建筑构件，限时豁免换版"}
+    ]
+  },
+  "catalog_report": {
+    "batch_id": "AIRPORT-20261005-01",
+    "items": [
+      {
+        "sign_ref": "SIGN-FOC-T1-EXIT-07",
+        "location_code": "FOC-T1",
+        "category": "airport",
+        "language_code": "en",
+        "term_key": "exit",
+        "package_id": "PKG-1A2B3C4D5E6F7081",
+        "observed_text": "Emergency Exit"
+      }
+    ]
+  },
+  "receipt_replay": {
+    "batch_id": "AIRPORT-20261005-01",
+    "accepted": true,
+    "replayed": true,
+    "note": "同 batch_id 重复同步时原样返回首次回执，不产生新版本，采用进度不倒退"
+  },
+  "candidate_decision": {
+    "action": "confirm",
+    "reason": "译法已经专家审定",
+    "promised_by": "2026-12-31T23:59:59+08:00",
+    "note": "action=reject 时不留更新要求；自动分析只能产生 proposed 候选"
+  },
+  "exemption_request": {
+    "reason": "历史建筑匾额需定制加工",
+    "valid_until": "2027-06-30T23:59:59+08:00",
+    "kind": "historic_building"
+  },
+  "public_view_note": "公开查询逐词条给出 actual(现场实际) 与 recommended(当前推荐)，state=aligned|differs"
 }
