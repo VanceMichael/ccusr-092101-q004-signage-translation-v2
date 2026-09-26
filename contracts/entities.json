@@ -1,6 +1,6 @@
 {
-  "schema_version": "1",
-  "domain": "城市外语标识纠错闭环",
+  "schema_version": "2",
+  "domain": "公共场所外语译写规范发布与采用追踪",
   "required_fields": [
     "sign_ref",
     "location_code",
@@ -9,7 +9,37 @@
     "standard_ref",
     "review_state"
   ],
+  "entities": {
+    "release_package": {
+      "key": "package_id",
+      "fields": ["revision", "title", "effective_from", "entries", "exceptions", "basis_documents", "signature"]
+    },
+    "unit": {"key": "unit_ref", "fields": ["name"]},
+    "subscription": {"key": "subscription_id", "fields": ["unit_ref", "scope_type", "scope_value"]},
+    "sign": {
+      "key": "sign_ref",
+      "fields": ["unit_ref", "location_code", "place_category", "carrier_type"]
+    },
+    "report_event": {
+      "key": ["source_system", "event_id"],
+      "fields": ["seq", "reported_at", "sign_ref", "language_code", "entry_key", "translation_revision", "package_id", "translation"]
+    },
+    "update_candidate": {
+      "key": "candidate_id",
+      "fields": ["diff_id", "sign_ref", "language_code", "current_translation", "suggested_translation", "status"]
+    },
+    "requirement": {
+      "key": "requirement_id",
+      "fields": ["candidate_id", "sign_ref", "unit_ref", "target_package_id", "required_translation", "status", "committed_deadline"]
+    },
+    "exemption": {
+      "key": "exemption_id",
+      "fields": ["sign_ref", "requirement_id", "reason", "valid_from", "valid_until"],
+      "decisions": ["applied", "approved", "expired", "revoked"]
+    }
+  },
   "time_format": "ISO 8601 with offset",
+  "identity_rule": "引用编号不含真实身份信息；附件只记录受控引用或 sha256 摘要",
   "sample": {
     "sign_ref": "SIGN-DEMO",
     "location_code": "FZ-001",

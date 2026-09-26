@@ -1,6 +1,55 @@
 {
-  "sign_ref": "SIGN-DEMO",
-  "location_code": "FZ-001",
-  "language_code": "en",
-  "translation_revision": 3
+  "unit": {"unit_ref": "UNIT-DEMO", "name": "示例责任单位"},
+  "subscription": {
+    "subscription_id": "SUB-DEMO",
+    "unit_ref": "UNIT-DEMO",
+    "scope_type": "place_category",
+    "scope_value": "road"
+  },
+  "sign": {
+    "sign_ref": "SIGN-DEMO",
+    "unit_ref": "UNIT-DEMO",
+    "location_code": "FZ-001",
+    "place_category": "road",
+    "carrier_type": "道路标牌"
+  },
+  "package": {
+    "package_id": "PKG-DEMO-1",
+    "revision": 1,
+    "title": "公共场所外语译写规范（示例第一版）",
+    "effective_from": "2026-01-01T00:00:00+08:00",
+    "supersedes_package_id": null,
+    "entries": [
+      {
+        "entry_key": "E-EXIT",
+        "language_code": "en",
+        "place_category": "road",
+        "source_text": "出口",
+        "target_text": "Exit",
+        "note": ""
+      }
+    ],
+    "exceptions": [
+      {
+        "exception_key": "EX-HERITAGE",
+        "language_code": "en",
+        "place_category": "scenic",
+        "description": "历史建筑名称保留约定译法"
+      }
+    ],
+    "basis_documents": [
+      {"document_key": "DOC-1", "title": "公共场所外语译写规范", "reference": "sha256:demo"}
+    ]
+  },
+  "report_event": {
+    "event_id": "EV-DEMO-1",
+    "seq": 1,
+    "reported_at": "2026-09-20T10:00:00+08:00",
+    "sign_ref": "SIGN-DEMO",
+    "language_code": "en",
+    "entry_key": "E-EXIT",
+    "translation_revision": 3,
+    "package_id": "PKG-DEMO-1",
+    "translation": "Exit"
+  }
 }
